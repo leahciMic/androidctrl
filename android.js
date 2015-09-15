@@ -139,12 +139,16 @@ var Android = {
 
   },
 
-  powerOn: function() {
-
+  inputKeyEvent: function(emulatorId, key) {
+    return this.adb(emulatorId, 'shell input keyevent ' + key);
   },
 
-  unlock: function() {
+  powerOn: function(emulatorId) {
+    return this.inputKeyEvent(emulatorId, '26');
+  },
 
+  unlock: function(emulatorId) {
+    return this.inputKeyEvent(emulatorId, '82');
   },
 
   devices: function() {

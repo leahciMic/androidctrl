@@ -143,3 +143,27 @@ The array looks like:
 
 Returns a promise that resolves with a boolean value that is true if the package
 specified with `packageName` is installed.
+
+## install(deviceId, apkPath)
+
+Install an APK located by absolute URI `apkPath` onto device with `deviceId`.
+
+Returns a Promise that resolves to `undefined` on success, and throws
+`'Already installed'` if it's already installed.
+
+## stop(deviceId)
+
+Stop the device specified with `deviceId`. (This should only be used with
+  emulators. It will kill the process.)
+
+## powerOn(deviceId)
+
+Presses the power on button on the phone.
+
+## unlock(deviceId)
+
+Presses the unlock button on the phone.
+
+## inputKeyEvent(deviceId, keyCode)
+
+Sends a key event with `keyCode` to device specified with `deviceId`.
