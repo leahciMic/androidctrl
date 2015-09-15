@@ -104,7 +104,8 @@ var Android = {
               emulatorId,
               'shell getprop sys.boot_completed'
             ).then(function(proc) {
-              if (proc.stdout === '0') {
+              debug('got back device status', proc);
+              if (!proc.stdout.match(/1/)) {
                 retry('Device not ready');
               }
             });
