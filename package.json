@@ -26,6 +26,8 @@
   "homepage": "https://github.com/leahciMic/androidctrl#readme",
   "devDependencies": {
     "jasmine": "^2.3.2",
+    "jscs": "^2.1.1",
+    "jshint": "^2.8.0",
     "proxyquire": "^1.7.2"
   },
   "dependencies": {

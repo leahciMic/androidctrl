@@ -44,3 +44,7 @@ object containing the following:
     stderr: String // The captured stderr
 }
 ```
+
+## createAVD(targetId, name)
+
+Create an AVD based upon `targetId` (from `listTargets`).

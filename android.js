@@ -5,8 +5,8 @@ var bluebird = require('bluebird');
 var debug = require('debug')('android');
 var spawnWaitFor = require('spawn-wait-for');
 var promiseRetry = require('promise-retry');
-var noop = function() {
-
+var returnUndefined = function() {
+  return undefined;
 };
 
 var processKeyValueGroups = function(str) {
@@ -81,7 +81,7 @@ var Android = {
     });
   },
   waitForDevice: function(emulatorId) {
-    return this.adb(emulatorId, 'wait-for-device').then(noop);
+    return this.adb(emulatorId, 'wait-for-device').then(returnUndefined);
   },
   ensureReady: function(emulatorId) {
     var self = this;
@@ -103,7 +103,8 @@ var Android = {
     return ezspawn('adb -s ' + emulatorId + ' ' + cmd);
   },
   createAVD: function(targetId, name) {
-    return ezspawn('android create avd -t ' + targetId + ' -a -c 500M -d "Nexus 5" -n "' + name + '"');
+    return ezspawn('android create avd -t ' + targetId + ' -a -c 500M -d "Nexus 5" -n "' + name + '"')
+      .then(returnUndefined);
   },
   isInstalled: function() {
 
