@@ -1,0 +1,3 @@
+1783 KB/s (36683910 bytes in 20.087s)
+	pkg: /data/local/tmp/fennec-40.0.en-US.android-i386.apk
+Failure [INSTALL_FAILED_ALREADY_EXISTS]

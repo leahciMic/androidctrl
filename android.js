@@ -131,8 +131,27 @@ var Android = {
       });
   },
 
-  install: function() {
+  install: function(emulatorId, apkPath, reinstall) {
+    if (typeof reinstall === 'undefined') {
+      reinstall = false;
+    }
 
+    return this.adb(
+      emulatorId,
+      'install ' +
+      (reinstall ? '-r ' : '') +
+      apkPath
+    ).then(function(process) {
+      if (process.stdout.match(/Success/)) {
+        return undefined;
+      }
+
+      if (process.stdout.match(/Failure \[INSTALL_FAILED_ALREADY_EXISTS\]/)) {
+        throw new Error('Already installed');
+      }
+
+      throw new Error('Could not parse output of adb command');
+    });
   },
 
   stop: function() {

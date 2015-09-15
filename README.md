@@ -144,12 +144,15 @@ The array looks like:
 Returns a promise that resolves with a boolean value that is true if the package
 specified with `packageName` is installed.
 
-## install(deviceId, apkPath)
+## install(deviceId, apkPath, reinstall=false)
 
 Install an APK located by absolute URI `apkPath` onto device with `deviceId`.
 
 Returns a Promise that resolves to `undefined` on success, and throws
 `'Already installed'` if it's already installed.
+
+If `reinstall` is true, than the package will be reinstalled and all related
+data will be kept.
 
 ## stop(deviceId)
 
