@@ -31,3 +31,16 @@ running).
 
 Resolves a promise when the device with the id `deviceId` has completed its
 boot process.
+
+### adb(deviceId, cmd)
+
+Run an adb command on the device with the id `deviceId`, and resolve to an
+object containing the following:
+
+```js
+{
+    code: Number, // the exit code of the process,
+    stdout: String, // The captured stdout
+    stderr: String // The captured stderr
+}
+```

@@ -84,11 +84,11 @@ var Android = {
     return this.adb(emulatorId, 'wait-for-device').then(noop);
   },
   ensureReady: function(emulatorId) {
-    return this.waitForDevice()
+    var self = this;
+    return this.waitForDevice(emulatorId)
       .then(function() {
         return promiseRetry(function(retry) {
-          return this.adb(emulatorId, 'shell getprop sys.boot_completed').then(function(proc) {
-            console.log(proc.stdout);
+          return self.adb(emulatorId, 'shell getprop sys.boot_completed').then(function(proc) {
             if (proc.stdout === '0') {
               retry('Device not ready');
             }
