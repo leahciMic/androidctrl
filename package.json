@@ -1,0 +1,38 @@
+{
+  "name": "androidctrl",
+  "version": "1.0.0",
+  "description": "Node module for managing and controlling the Android Emulator",
+  "main": "android.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leahciMic/androidctrl.git"
+  },
+  "keywords": [
+    "android",
+    "emulator",
+    "control",
+    "avd",
+    "device",
+    "adb"
+  ],
+  "author": "Michael Leaney <leahcimic@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leahciMic/androidctrl/issues"
+  },
+  "homepage": "https://github.com/leahciMic/androidctrl#readme",
+  "devDependencies": {
+    "jasmine": "^2.3.2",
+    "proxyquire": "^1.7.2"
+  },
+  "dependencies": {
+    "bluebird": "^2.10.0",
+    "debug": "^2.2.0",
+    "ezspawn": "^1.0.2",
+    "promise-retry": "^0.2.9",
+    "spawn-wait-for": "^1.0.8"
+  }
+}
