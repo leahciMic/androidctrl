@@ -45,7 +45,7 @@ var process;
 var Android = {
   startOrCreate: function() {
     var self = this;
-    return this.getAVDs().then(function(avds) {
+    return this.listAVDs().then(function(avds) {
       if (avds.length) {
         return avds;
       }
@@ -57,7 +57,7 @@ var Android = {
         var target = targets.shift();
         var targetId = String(parseInt(target.id));
         return self.createAVD(targetId, target.Name.replace(/[^\w]+/g, '')).then(function() {
-          return self.getAVDs();
+          return self.listAVDs();
         }).catch(function(err) {
           console.error(err);
           throw err;
@@ -141,7 +141,7 @@ var Android = {
         });
     });
   },
-  getAVDs: function() {
+  listAVDs: function() {
     debug('get avds');
     return ezspawn('android list avds').then(function(output) {
       var avds = processKeyValueGroups(output.stdout);

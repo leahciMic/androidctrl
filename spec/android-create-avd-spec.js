@@ -25,7 +25,7 @@ describe('Android', function() {
     });
   });
 
-  describe('adb', function() {
+  describe('createAVD', function() {
     it('should run the right command', function() {
       Android.createAVD('1', 'foobar');
       expect(ezspawnMock).toHaveBeenCalledWith(

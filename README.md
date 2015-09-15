@@ -24,8 +24,8 @@ promise that is resolved with an object that has the following properties.
 
 ### waitForDevice(deviceId)
 
-Wait until the device specified with `deviceId` is ready (adb daemon is
-running).
+Return a promise that will be resolved when the device specified with `deviceId`
+is ready (adb daemon is running).
 
 ### ensureReady(deviceId)
 
@@ -47,4 +47,13 @@ object containing the following:
 
 ## createAVD(targetId, name)
 
-Create an AVD based upon `targetId` (from `listTargets`).
+Create an AVD based upon `targetId` (from `listTargets`). Returns a promise
+that will be resolved when the AVD has finished being created.
+
+## listTargets
+
+Returns a list of Android targets that can be used with createAVD.
+
+## getAVDs
+
+## getDevices
