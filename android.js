@@ -5,6 +5,9 @@ var bluebird = require('bluebird');
 var debug = require('debug')('android');
 var spawnWaitFor = require('spawn-wait-for');
 var promiseRetry = require('promise-retry');
+var noop = function() {
+
+};
 
 var processKeyValueGroups = function(str) {
   var lines = str.split('\n');
@@ -77,8 +80,11 @@ var Android = {
       };
     });
   },
+  waitForDevice: function(emulatorId) {
+    return this.adb(emulatorId, 'wait-for-device').then(noop);
+  },
   ensureReady: function(emulatorId) {
-    return this.adb(emulatorId, 'wait-for-device')
+    return this.waitForDevice()
       .then(function() {
         return promiseRetry(function(retry) {
           return this.adb(emulatorId, 'shell getprop sys.boot_completed').then(function(proc) {
