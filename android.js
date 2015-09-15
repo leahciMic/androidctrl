@@ -106,34 +106,43 @@ var Android = {
     return ezspawn('android create avd -t ' + targetId + ' -a -c 500M -d "Nexus 5" -n "' + name + '"')
       .then(returnUndefined);
   },
+
   isInstalled: function() {
 
   },
+
   install: function() {
 
   },
+
   stop: function() {
 
   },
+
   powerOn: function() {
 
   },
+
   unlock: function() {
 
   },
-  getDevices: function() {
+
+  devices: function() {
     return ezspawn('adb devices').then(function(output) {
       var lines = output.stdout.split('\n');
+      console.log(lines);
       lines.shift();
       return lines
         .map(function(line) {
-          var matches = line.match(/([^\s]+])\s+([^\s]+])/);
+          var matches = line.match(/([^\s]+)\s+([^\s]+)/);
+          console.log('matches', matches, line);
           if (matches === null) {
             return null;
           }
+
           return {
             name: matches[1],
-            status: matches[2]
+            status: matches[2],
           };
         })
         .filter(function(x) {
@@ -141,6 +150,7 @@ var Android = {
         });
     });
   },
+
   listAVDs: function() {
     debug('get avds');
     return ezspawn('android list avds').then(function(output) {

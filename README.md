@@ -105,4 +105,15 @@ The array looks like:
 ]
 ```
 
-## getDevices
+## devices
+
+Resolves to an array of device objects.
+
+The array looks like:
+```js
+[
+  { name: 'emulator-5554', status: 'device' },
+  { name: 'emulator-5555', status: 'device' },
+  { name: 'emulator-5556', status: 'offline' }
+]
+```
