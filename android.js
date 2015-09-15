@@ -1,7 +1,9 @@
 'use strict';
 
 var ezspawn = require('ezspawn');
-var debug = require('debug')('android');
+var debug = require('debug')('androidctrl:debug');
+var verbose = require('debug')('androidctrl:verbose');
+
 var spawnWaitFor = require('spawn-wait-for');
 var promiseRetry = require('promise-retry');
 var returnUndefined = function() {
@@ -42,6 +44,7 @@ var processKeyValueGroups = function(str) {
 
 var Android = {
   startOrCreate: function() {
+    verbose('startOrCreate');
     var _this = this;
     return this.listAVDs().then(function(avds) {
       if (avds.length) {
@@ -56,6 +59,7 @@ var Android = {
 
         var target = targets.shift();
         var targetId = String(parseInt(target.id));
+
         return _this.createAVD(targetId, target.Name.replace(/[^\w]+/g, ''))
           .then(function() {
             return _this.listAVDs();
@@ -72,6 +76,7 @@ var Android = {
   },
 
   start: function(avdName) {
+    verbose('start(' + avdName + ')');
     return spawnWaitFor(
       'emulator -verbose -avd "' + avdName + '" -no-boot-anim -no-skin',
       /emulator: control console listening on port (\d+), ADB on port \d+/
@@ -84,10 +89,12 @@ var Android = {
   },
 
   waitForDevice: function(emulatorId) {
+    verbose('waitForDevice(' + emulatorId + ')');
     return this.adb(emulatorId, 'wait-for-device').then(returnUndefined);
   },
 
   ensureReady: function(emulatorId) {
+    verbose('ensureReady(' + emulatorId + ')');
     var _this = this;
     return this.waitForDevice(emulatorId)
       .then(function() {
@@ -112,10 +119,12 @@ var Android = {
   },
 
   adb: function(emulatorId, cmd) {
+    verbose('adb(' + emulatorId + ',' + cmd + ')');
     return ezspawn('adb -s ' + emulatorId + ' ' + cmd);
   },
 
   createAVD: function(targetId, name) {
+    verbose('createAVD(' + targetId + ',' + name + ')');
     return ezspawn(
       'android create avd -t ' +
       targetId +
@@ -125,6 +134,7 @@ var Android = {
   },
 
   isInstalled: function(emulatorId, packageName) {
+    verbose('isInstalled(' + emulatorId + ',' + packageName + ')');
     return this.listPackages(emulatorId)
       .then(function(packages) {
         return packages.indexOf(packageName) > -1;
@@ -132,6 +142,7 @@ var Android = {
   },
 
   install: function(emulatorId, apkPath, reinstall) {
+    verbose('install(' + emulatorId + ',' + apkPath + ',' + reinstall + ')');
     if (typeof reinstall === 'undefined') {
       reinstall = false;
     }
@@ -155,22 +166,27 @@ var Android = {
   },
 
   stop: function(emulatorId) {
+    verbose('stop(' + emulatorId + ')');
     return this.adb(emulatorId, 'emu kill');
   },
 
   inputKeyEvent: function(emulatorId, key) {
+    verbose('inputKeyEvent(' + emulatorId + ',' + key + ')');
     return this.adb(emulatorId, 'shell input keyevent ' + key);
   },
 
   powerOn: function(emulatorId) {
+    verbose('powerOn(' + emulatorId + ')');
     return this.inputKeyEvent(emulatorId, '26');
   },
 
   unlock: function(emulatorId) {
+    verbose('unlock(' + emulatorId + ')');
     return this.inputKeyEvent(emulatorId, '82');
   },
 
   devices: function() {
+    verbose('devices()');
     return ezspawn('adb devices').then(function(output) {
       var lines = output.stdout.split('\n');
       console.log(lines);
@@ -195,7 +211,7 @@ var Android = {
   },
 
   listAVDs: function() {
-    debug('get avds');
+    verbose('listAVDs()');
     return ezspawn('android list avds').then(function(output) {
       var avds = processKeyValueGroups(output.stdout);
       debug('got avds', avds);
@@ -204,12 +220,14 @@ var Android = {
   },
 
   listTargets: function() {
+    verbose('listTargets()');
     return ezspawn('android list targets').then(function(output) {
       return processKeyValueGroups(output.stdout);
     });
   },
 
   listPackages: function(emulatorId) {
+    verbose('listPackages(' + emulatorId + ')');
     return this.adb(emulatorId, 'shell pm list packages').then(function(proc) {
       var lines = proc.stdout.split('\n');
       return lines
