@@ -52,8 +52,57 @@ that will be resolved when the AVD has finished being created.
 
 ## listTargets
 
-Returns a list of Android targets that can be used with createAVD.
+Resolves to an array of Android target objects that can be used with createAVD.
 
-## getAVDs
+The array looks like:
+```js
+[
+  {
+    id: '1 or "android-22"',
+    Name: 'Android 5.1.1',
+    Type: 'Platform',
+    level: '22',
+    Revision: '2',
+    Skins: 'HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in'
+  },
+  {
+    id: '2 or "android-23"',
+    Name: 'Android 6.0.0',
+    Type: 'Platform',
+    level: '23',
+    Revision: '2',
+    Skins: 'HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in'
+  }
+]
+```
+
+## listAVDs
+
+Resolves to an array of Android AVD objects that can be used in conjunction
+with `start(avd.Name)`.
+
+The array looks like:
+```js
+[
+  {
+    Name: 'Android511',
+    Device: 'Nexus 5 (Google)',
+    Path: '/Users/michael/.android/avd/Android511.avd',
+    Target: 'Android 5.1.1 (API level 22)',
+    'Tag/ABI': 'default/x86',
+    Skin: '1080x1920',
+    Sdcard: '500M'
+  },
+  {
+    Name: 'Android600',
+    Device: 'Nexus 5 (Google)',
+    Path: '/Users/michael/.android/avd/Android600.avd',
+    Target: 'Android 6.0.0 (API level 23)',
+    'Tag/ABI': 'default/x86',
+    Skin: '1080x1920',
+    Sdcard: '500M'
+  }
+]
+```
 
 ## getDevices
