@@ -1,0 +1,16 @@
+Available Android Virtual Devices:
+    Name: Android511
+  Device: Nexus 5 (Google)
+    Path: /Users/michael/.android/avd/Android511.avd
+  Target: Android 5.1.1 (API level 22)
+ Tag/ABI: default/x86
+    Skin: 1080x1920
+  Sdcard: 500M
+
+    Name: Android600
+  Device: Nexus 5 (Google)
+    Path: /Users/michael/.android/avd/Android600.avd
+  Target: Android 6.0.0 (API level 23)
+ Tag/ABI: default/x86
+    Skin: 1080x1920
+  Sdcard: 500M

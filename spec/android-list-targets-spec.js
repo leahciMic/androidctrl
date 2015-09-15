@@ -3,14 +3,17 @@
 var bluebird = require('bluebird');
 var proxyquire = require('proxyquire');
 var fs = require('fs');
-var adbListTargetFixture = fs.readFileSync('./spec/fixtures/adb-list-targets.txt', 'utf8');
+var adbListAVDsFixture = fs.readFileSync(
+  './spec/fixtures/adb-list-targets.txt',
+   'utf8'
+ );
 
 var ezspawnMock;
 var Android;
 
 var fakeEzspawnReturn = {
   code: 0,
-  stdout: adbListTargetFixture,
+  stdout: adbListAVDsFixture,
   stderr: '',
 };
 
@@ -29,14 +32,14 @@ describe('Android', function() {
 
   describe('listTargets', function() {
     it('should run the right command', function() {
-      Android.listAVDs();
+      Android.listTargets();
       expect(ezspawnMock).toHaveBeenCalledWith(
-        'android list avds'
+        'android list targets'
       );
     });
 
     it('should return array of android target objects', function(done) {
-      Android.listAVDs().then(function(result) {
+      Android.listTargets().then(function(result) {
         expect(result).toEqual([
           {
             id: '1 or "android-22"',
@@ -44,7 +47,10 @@ describe('Android', function() {
             Type: 'Platform',
             level: '22',
             Revision: '2',
-            Skins: 'HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in',
+            Skins: [
+              'HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), ',
+              'WVGA854, WXGA720, WXGA800, WXGA800-7in',
+            ].join(''),
           },
           {
             id: '2 or "android-23"',
@@ -52,7 +58,10 @@ describe('Android', function() {
             Type: 'Platform',
             level: '23',
             Revision: '2',
-            Skins: 'HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in',
+            Skins: [
+              'HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), ',
+              'WVGA854, WXGA720, WXGA800, WXGA800-7in',
+            ].join(''),
           },
         ]);
         done();
