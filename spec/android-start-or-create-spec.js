@@ -42,7 +42,7 @@ describe('Android', function() {
 
     it('should get the correct emulator id', function(done) {
       Android.start('foobar').then(function(result) {
-        expect(result.id).toEqual('5554');
+        expect(result.id).toEqual('emulator-5554');
         done();
       });
     });

@@ -190,12 +190,10 @@ var Android = {
     verbose('devices()');
     return ezspawn('adb devices').then(function(output) {
       var lines = output.stdout.split('\n');
-      console.log(lines);
       lines.shift();
       return lines
         .map(function(line) {
           var matches = line.match(/([^\s]+)\s+([^\s]+)/);
-          console.log('matches', matches, line);
           if (matches === null) {
             return null;
           }
