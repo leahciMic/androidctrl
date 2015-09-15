@@ -117,3 +117,14 @@ The array looks like:
   { name: 'emulator-5556', status: 'offline' }
 ]
 ```
+
+## listPackages(deviceId)
+
+Returns a promise that resolves to an array containing packages installed on
+the device with `deviceId`.
+
+The array looks like:
+```js
+
+
+```

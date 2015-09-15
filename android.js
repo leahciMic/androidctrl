@@ -159,19 +159,26 @@ var Android = {
       return avds;
     });
   },
+
   listTargets: function() {
     return ezspawn('android list targets').then(function(output) {
       return processKeyValueGroups(output.stdout);
     });
   },
+
   listPackages: function(emulatorId) {
     return this.adb(emulatorId, 'shell pm list packages').then(function(proc) {
       var lines = proc.stdout.split('\n');
-      return lines.map(function(line) {
-        return line.split(':')[1];
-      });
+      return lines
+        .map(function(line) {
+          return line.split(':')[1];
+        })
+        .filter(function(pkg) {
+          return pkg;
+        });
     });
-  }
+  },
+
 };
 
 // Android.startOrCreate()
