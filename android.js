@@ -154,8 +154,8 @@ var Android = {
     });
   },
 
-  stop: function() {
-
+  stop: function(emulatorId) {
+    return this.adb(emulatorId, 'emu kill');
   },
 
   inputKeyEvent: function(emulatorId, key) {

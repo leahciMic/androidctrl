@@ -52,7 +52,7 @@ describe('Android', function() {
     it('should reject on failure', function(done) {
       mockProcess.stdout = adbInstallFailureFixture;
 
-      Android.install('5554', '/foo/bar/baz.apk').then(function(data) {
+      Android.install('5554', '/foo/bar/baz.apk').then(function() {
         fail('should not have resolved');
         done();
       }).catch(function(err) {
@@ -60,6 +60,5 @@ describe('Android', function() {
         done();
       });
     });
-
   });
 });
