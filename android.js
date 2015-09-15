@@ -72,7 +72,6 @@ var Android = {
   },
 
   start: function(avdName) {
-    var _this = this;
     return spawnWaitFor(
       'emulator -verbose -avd "' + avdName + '" -no-boot-anim -no-skin',
       /emulator: control console listening on port (\d+), ADB on port \d+/
@@ -94,7 +93,10 @@ var Android = {
       .then(function() {
         return promiseRetry(
           function(retry) {
-            return _this.adb(emulatorId, 'shell getprop sys.boot_completed').then(function(proc) {
+            return _this.adb(
+              emulatorId,
+              'shell getprop sys.boot_completed'
+            ).then(function(proc) {
               if (proc.stdout === '0') {
                 retry('Device not ready');
               }
@@ -114,12 +116,19 @@ var Android = {
   },
 
   createAVD: function(targetId, name) {
-    return ezspawn('android create avd -t ' + targetId + ' -a -c 500M -d "Nexus 5" -n "' + name + '"')
-      .then(returnUndefined);
+    return ezspawn(
+      'android create avd -t ' +
+      targetId +
+      ' -a -c 500M -d "Nexus 5" -n "' +
+      name + '"'
+    ).then(returnUndefined);
   },
 
-  isInstalled: function() {
-
+  isInstalled: function(emulatorId, packageName) {
+    return this.listPackages(emulatorId)
+      .then(function(packages) {
+        return packages.indexOf(packageName) > -1;
+      });
   },
 
   install: function() {

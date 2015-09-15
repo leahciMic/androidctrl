@@ -125,6 +125,21 @@ the device with `deviceId`.
 
 The array looks like:
 ```js
-
-
+[
+  'com.android.smoketest',
+  'com.example.android.livecubes',
+  'com.android.providers.telephony',
+  'com.android.providers.calendar',
+  'com.android.providers.media',
+  'com.android.protips',
+  'com.android.launcher',
+  'com.android.documentsui',
+  'com.android.gallery',
+  'com.android.externalstorage'
+]
 ```
+
+## isInstalled(packageName)
+
+Returns a promise that resolves with a boolean value that is true if the package
+specified with `packageName` is installed.
