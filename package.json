@@ -1,6 +1,6 @@
 {
   "name": "androidctrl",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Node module for managing and controlling the Android Emulator",
   "main": "android.js",
   "scripts": {
