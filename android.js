@@ -83,7 +83,7 @@ var Android = {
     ).then(function(result) {
       return {
         process: result.process,
-        id: result.matches[1],
+        id: 'emulator-' + result.matches[1],
       };
     });
   },
