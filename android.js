@@ -78,7 +78,7 @@ var Android = {
   start: function(avdName) {
     verbose('start(' + avdName + ')');
     return spawnWaitFor(
-      'emulator -verbose -avd "' + avdName + '" -no-boot-anim -no-skin',
+      'emulator -verbose -avd "' + avdName + '" -no-boot-anim',
       /emulator: control console listening on port (\d+), ADB on port \d+/
     ).then(function(result) {
       return {
