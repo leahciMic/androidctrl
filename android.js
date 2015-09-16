@@ -129,7 +129,7 @@ var Android = {
     return ezspawn(
       'android create avd -t ' +
       targetId +
-      ' -a -c 500M -d "Nexus 5" -n "' +
+      ' -c 500M -d "Nexus 5" -n "' +
       name + '"'
     ).then(returnUndefined);
   },
