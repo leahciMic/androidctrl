@@ -33,7 +33,7 @@ describe('Android', function() {
     it('should run the right command', function(done) {
       Android.start('foobar').then(function(result) {
         expect(spawnWaitForMock).toHaveBeenCalledWith(
-          'emulator -verbose -avd "foobar" -no-boot-anim',
+          'emulator -verbose -avd "foobar"',
           jasmine.any(RegExp)
         );
         done();
