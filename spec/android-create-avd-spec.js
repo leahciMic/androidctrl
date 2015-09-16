@@ -29,7 +29,7 @@ describe('Android', function() {
     it('should run the right command', function() {
       Android.createAVD('1', 'foobar');
       expect(ezspawnMock).toHaveBeenCalledWith(
-        'android create avd -t 1 -a -c 500M -d "Nexus 5" -n "foobar"'
+        'android create avd -t 1 -c 500M -d "Nexus 5" -n "foobar"'
       );
     });
 
