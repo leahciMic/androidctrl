@@ -236,6 +236,9 @@ var Android = {
         })
         .filter(function(pkg) {
           return pkg;
+        })
+        .map(function(pkg) {
+          return pkg.trim();
         });
     });
   },
