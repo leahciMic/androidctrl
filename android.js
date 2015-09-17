@@ -138,6 +138,7 @@ var Android = {
     verbose('isInstalled(' + emulatorId + ',' + packageName + ')');
     return this.listPackages(emulatorId)
       .then(function(packages) {
+        debug('list of packages', packages, 'indexOf', packageName, packages.indexOf(packageName));
         return packages.indexOf(packageName) > -1;
       });
   },
