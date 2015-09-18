@@ -45,7 +45,7 @@ object containing the following:
 }
 ```
 
-## createAVD(targetId, name)
+## createAVD(targetId, name, hardwareOptions)
 
 Create an AVD based upon `targetId` (from `listTargets`). Returns a promise
 that will be resolved when the AVD has finished being created.
