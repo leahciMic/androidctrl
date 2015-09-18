@@ -3,7 +3,10 @@
 var ezspawn = require('ezspawn');
 var debug = require('debug')('androidctrl:debug');
 var verbose = require('debug')('androidctrl:verbose');
-
+var fs = require('fs');
+var path = require('path');
+var ini = require('ini');
+var findWhere = require('lodash.findwhere');
 var spawnWaitFor = require('spawn-wait-for');
 var promiseRetry = require('promise-retry');
 var returnUndefined = function() {
@@ -43,7 +46,7 @@ var processKeyValueGroups = function(str) {
 };
 
 var Android = {
-  startOrCreate: function() {
+  startOrCreate: function(hardwareOptions) {
     verbose('startOrCreate');
     var _this = this;
     return this.listAVDs().then(function(avds) {
@@ -60,7 +63,11 @@ var Android = {
         var target = targets.shift();
         var targetId = String(parseInt(target.id));
 
-        return _this.createAVD(targetId, target.Name.replace(/[^\w]+/g, ''))
+        return _this.createAVD(
+          targetId,
+          target.Name.replace(/[^\w]+/g, ''),
+          hardwareOptions
+        )
           .then(function() {
             return _this.listAVDs();
           })
@@ -83,7 +90,7 @@ var Android = {
     ).then(function(result) {
       return {
         process: result.process,
-        id: 'emulator-' + result.matches[1],
+        id: 'emulator-' + result.matches[1]
       };
     });
   },
@@ -113,9 +120,34 @@ var Android = {
 
           {
             retries: 100,
-            factor: 1,
+            factor: 1
           }
         );
+      });
+  },
+
+  setHardwareOptions: function(avdName, hardwareOptions) {
+    return this.listAVDs()
+      .then(function(avds) {
+        return findWhere(avds, {Name: avdName});
+      })
+      .then(function(avd) {
+        if (!avd) {
+          throw new Error('avd ' + avdName + ' could not be found');
+        }
+
+        return path.join(avd.Path, 'config.ini');
+      })
+      .then(function(configFile) {
+        var iniFile = fs.readFileSync(configFile, 'utf8');
+        var config = ini.parse(iniFile);
+
+        Object.keys(hardwareOptions).forEach(function(key) {
+          config[key] = hardwareOptions[key];
+        });
+
+        fs.writeFileSync(configFile, ini.stringify(config));
+        return undefined;
       });
   },
 
@@ -124,22 +156,35 @@ var Android = {
     return ezspawn('adb -s ' + emulatorId + ' ' + cmd);
   },
 
-  createAVD: function(targetId, name) {
+  createAVD: function(targetId, name, hardwareOptions) {
     verbose('createAVD(' + targetId + ',' + name + ')');
+    var _this = this;
     return ezspawn(
       'android create avd -t ' +
       targetId +
       ' -c 500M -d "Nexus 5" -n "' +
       name + '"'
-    ).then(returnUndefined);
+    )
+    .then(function() {
+      if (!hardwareOptions) {
+        verbose('no hardware options specified');
+        return undefined;
+      }
+
+      return _this.setHardwareOptions(name, hardwareOptions);
+    });
   },
 
   isInstalled: function(emulatorId, packageName) {
     verbose('isInstalled(' + emulatorId + ',' + packageName + ')');
     return this.listPackages(emulatorId)
       .then(function(packages) {
-        debug('list of packages', packages, 'indexOf', packageName, packages.indexOf(packageName));
-        return packages.indexOf(packageName) > -1;
+        var isInstalled = packages.indexOf(packageName) > -1;
+        debug(
+          packageName + ' is ' +
+          (!isInstalled ? 'not ' : '') + 'installed'
+        );
+        return isInstalled;
       });
   },
 
@@ -201,7 +246,7 @@ var Android = {
 
           return {
             name: matches[1],
-            status: matches[2],
+            status: matches[2]
           };
         })
         .filter(function(x) {
@@ -241,8 +286,7 @@ var Android = {
           return pkg.trim();
         });
     });
-  },
-
+  }
 };
 
 module.exports = Android;

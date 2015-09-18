@@ -34,6 +34,8 @@
     "bluebird": "^2.10.0",
     "debug": "^2.2.0",
     "ezspawn": "^1.0.2",
+    "ini": "^1.3.4",
+    "lodash.findwhere": "^3.1.0",
     "promise-retry": "^0.2.9",
     "spawn-wait-for": "^1.0.8"
   }

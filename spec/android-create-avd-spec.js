@@ -9,7 +9,7 @@ var Android;
 var fakeEzspawnReturn = {
   code: 0,
   stdout: 'command completed',
-  stderr: '',
+  stderr: ''
 };
 
 describe('Android', function() {
@@ -21,8 +21,10 @@ describe('Android', function() {
     });
 
     Android = proxyquire('../android.js', {
-      ezspawn: ezspawnMock,
+      ezspawn: ezspawnMock
     });
+
+    spyOn(Android, 'setHardwareOptions');
   });
 
   describe('createAVD', function() {
@@ -36,6 +38,20 @@ describe('Android', function() {
     it('should return result from ezspawn', function(done) {
       Android.createAVD('1', 'foobar').then(function(result) {
         expect(result).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should set hardware options in ini file', function(done) {
+      var hwOptions = {
+        'hw.gpu.enabled': 'yes'
+      };
+
+      Android.createAVD('1', 'foobar', hwOptions).then(function() {
+        expect(Android.setHardwareOptions).toHaveBeenCalledWith(
+          'foobar',
+          hwOptions
+        );
         done();
       });
     });
