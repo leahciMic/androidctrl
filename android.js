@@ -1,5 +1,6 @@
 'use strict';
 
+var isObject = require('lodash.isobject');
 var ezspawn = require('ezspawn');
 var debug = require('debug')('androidctrl:debug');
 var verbose = require('debug')('androidctrl:verbose');
@@ -46,12 +47,27 @@ var processKeyValueGroups = function(str) {
 };
 
 var Android = {
-  startOrCreate: function(hardwareOptions) {
+  startOrCreate: function(name, hardwareOptions) {
+    if (isObject(name)) {
+      hardwareOptions = name;
+      name = undefined;
+    }
+
+    if (!name) {
+      name = 'Android511';
+    }
+
     verbose('startOrCreate');
     var _this = this;
     return this.listAVDs().then(function(avds) {
       if (avds.length) {
-        return avds;
+        if (name) {
+          if (avds.indexOf(name) > -1) {
+            return [avds[avds.indexOf(name)]];
+          }
+        } else {
+          return avds;
+        }
       }
 
       // no avds, list targets and create one
@@ -65,7 +81,7 @@ var Android = {
 
         return _this.createAVD(
           targetId,
-          target.Name.replace(/[^\w]+/g, ''),
+          name || target.Name.replace(/[^\w]+/g, ''),
           hardwareOptions
         )
           .then(function() {
