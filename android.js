@@ -48,6 +48,10 @@ var processKeyValueGroups = function(str) {
 
 var Android = {
   startOrCreate: function(name, hardwareOptions) {
+    verbose('startOrCreate(', name, hardwareOptions, ')');
+
+    var _this = this;
+
     if (isObject(name)) {
       hardwareOptions = name;
       name = undefined;
@@ -57,20 +61,13 @@ var Android = {
       name = 'Android511';
     }
 
-    verbose('startOrCreate');
-    var _this = this;
-    return this.listAVDs().then(function(avds) {
-      if (avds.length) {
-        if (name) {
-          if (avds.indexOf(name) > -1) {
-            return [avds[avds.indexOf(name)]];
-          }
-        } else {
-          return avds;
-        }
+    return this.hasAVD(name).then(function(hasAVD) {
+      if (hasAVD) {
+        return name;
       }
 
-      // no avds, list targets and create one
+      // create an AVD based on first target we find
+
       return _this.listTargets().then(function(targets) {
         if (!targets.length) {
           throw new Error('Could not find any targets, can not create AVD');
@@ -81,20 +78,14 @@ var Android = {
 
         return _this.createAVD(
           targetId,
-          name || target.Name.replace(/[^\w]+/g, ''),
+          name,
           hardwareOptions
-        )
-          .then(function() {
-            return _this.listAVDs();
-          })
-          .catch(function(err) {
-            console.error(err);
-            throw err;
-          });
+        ).then(function() {
+          return name;
+        });
       });
-    }).then(function(avds) {
-      var avd = avds.shift();
-      return _this.start(avd.Name);
+    }).then(function(avdName) {
+      return _this.start(avdName);
     });
   },
 
