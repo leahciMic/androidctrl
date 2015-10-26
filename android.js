@@ -244,7 +244,7 @@ var Android = {
   },
 
   unlock: function(emulatorId) {
-    verbose('unlock(' + emulatorId + ')');
+    verbose('unlock(', emulatorId, ')');
     return this.inputKeyEvent(emulatorId, '82');
   },
 
