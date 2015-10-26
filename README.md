@@ -76,6 +76,10 @@ The array looks like:
 ]
 ```
 
+## hasAVD(name)
+
+Resolves to true if the AVD exists, or false if it does not.
+
 ## listAVDs
 
 Resolves to an array of Android AVD objects that can be used in conjunction

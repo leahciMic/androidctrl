@@ -204,6 +204,15 @@ var Android = {
       });
   },
 
+  hasAVD: function(avdName) {
+    verbose('hasAVD()');
+    return this.listAVDs().then(function(avds) {
+      return avds.filter(function(avd) {
+        return avd.Name.toLowerCase() === avdName.toLowerCase();
+      }).length > 0;
+    });
+  },
+
   install: function(emulatorId, apkPath, reinstall) {
     verbose('install(' + emulatorId + ',' + apkPath + ',' + reinstall + ')');
     if (typeof reinstall === 'undefined') {
