@@ -15,10 +15,10 @@ describe('Android', function() {
       var obj = {
         process: fakeProcess = {},
         matches: [
-          'emulator: control console listening on port (5554), ADB on port 5555',
+          'emulator: Serial number of this emulator (for ADB): emulator-5554',
           '5554',
         ],
-        line: 'emulator: control console listening on port (5554), ADB on port 5555',
+        line: 'emulator: Serial number of this emulator (for ADB): emulator-5554',
       };
 
       return bluebird.resolve(obj);

@@ -93,7 +93,7 @@ var Android = {
     verbose('start(' + avdName + ')');
     return spawnWaitFor(
       'emulator -verbose -avd "' + avdName + '"',
-      /emulator: control console listening on port (\d+), ADB on port \d+/
+      /emulator: Serial number of this emulator \(for ADB\): emulator-(\d+)/
     ).then(function(result) {
       return {
         process: result.process,
